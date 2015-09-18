@@ -22,3 +22,7 @@ Current strategy is as follows:
       correct" and continue
     - Concurrency is key
  
+## feedme
+feedme is the feed library. This is what's gonna pull from an rss feed, a url, a
+twitter link, a txt file etc., tokenize, and then feed to the translation
+engine. This'll also include the diffing engine later on.
