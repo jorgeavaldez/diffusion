@@ -1,9 +1,9 @@
-# DIFFUSION
+# diffusion
 Diffusion is the translation diff engine backend for BaoBao. It's split into two
 main parts, the text extraction and parse tokenizer, and the translation diffing
 engine. It uses the Readability API for web links, and the Parse library.
 
-## Strategy
+## pro strats
 Current strategy is as follows:
 - Dissect the [Krill package](https://github.com/p-e-w/krill.git) to find how
   they pull RSS and Twitter body data and links.
