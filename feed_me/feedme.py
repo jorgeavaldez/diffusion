@@ -25,4 +25,18 @@ import time
 import feedparser
 from bs4 import BeautifulSoup
 
-class FeedMe:
+class FeedMe(object):
+    @staticmethod
+    def pull_article(url):
+        data = urlopen(url).read()
+        doc = BeautifulSoup(data, 'html.parser')
+
+        for txt in doc.find_all('p'):
+            print(txt)
+
+def main():
+    url = raw_input('url: ')
+
+    FeedMe.pull_article(url)
+
+main()
