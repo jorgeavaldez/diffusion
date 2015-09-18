@@ -1,3 +1,4 @@
+[diffusion](assets/logo.png)
 # diffusion
 Diffusion is the translation diff engine backend for BaoBao. It's split into two
 main parts, the text extraction and parse tokenizer, and the translation diffing
