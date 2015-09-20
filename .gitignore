@@ -1,3 +1,5 @@
 /krill
 *.swp
 .DS_Store
+*.txt
+readability_key.txt
