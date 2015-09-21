@@ -26,3 +26,17 @@ Current strategy is as follows:
 feedme is the feed library. This is what's gonna pull from an rss feed, a url, a
 twitter link, a txt file etc., tokenize, and then feed to the translation
 engine. This'll also include the diffing engine later on.
+
+## links and misc.
+- [stackoverflow thread](http://stackoverflow.com/questions/399200/calculating-the-semantic-distance-between-words)
+  on sentence similarity
+
+- [textbook](http://www.amazon.com/dp/0131873210/?tag=stackoverfl08-20) on nlp
+
+- [wikipedia page](https://en.wikipedia.org/wiki/Levenshtein_distance) on
+  levenshtein distance
+
+- [beautiful soup](http://www.crummy.com/software/BeautifulSoup/bs4/doc/#)
+  documentation
+
+- [the clips pattern library](http://www.clips.ua.ac.be/pattern)

@@ -5,51 +5,70 @@
 # copyright (c) 2015 - jorge valdez
 # javaldez@smu.edu
 #
-# created for the engaged learning project with Alex Saladna
-
-# these imports come from krill
-# i'll be modifying them for their feed parsing and blurb extraction
+# created for the engaged learning project with Alex Saladna (asaladna@smu.edu)
+#
+# feed_me - feed cleaning and text parsing library
+#   uses the readability api to extract text from web urls
+#   api key is kept in the same directory as readability_key.txt
 
 import re
 import requests
 import sys
-# import time
 import json
 
-# import feedparser
 from bs4 import BeautifulSoup
 
-class FeedMe(object):
-    @staticmethod
-    def soup_pull_article(url):
-        data = urlopen(url).read()
-        doc = BeautifulSoup(data, 'html.parser')
-        
-        f = open('out.txt', 'w')
-        f.write(doc.get_text().encode('utf-8'))
-        
-    @staticmethod
-    def readability_article_clean_test(url):
-        # I'm gonna try to do the same article test here but using the
-        # readability API so that I can get some clean text.
-        base_url = 'http://readability.com/api/content/v1/parser'
+class Feedr(object):
+    def __init__(self):
+        '''Constructor. Instantiates the base_url and opens the api key and loads
+        it into memory.'''
 
-        key_text = open('readability_key.txt', 'r')
-        api_key = key_text.readlines()[0].strip()
+        self.base_url = 'http://readability.com/api/content/v1/parser'
 
-        readability_payload = {'token' : api_key, 'url' : url}
-        res = requests.get(base_url, params=readability_payload)
+        with open('readability_key.txt', 'r') as key_file:
+            # TODO: at some point, make the readability api key an environment
+            # variable, or move the api file to a definite location, and maybe add
+            # multiple keys in the same file, and maybe add some error checking
+            self.r_api_key = key_file.readlines()[0].strip()
 
-        key_text.close()
+        self.r_payload = {}
+            
+    def _set_get_req_payload(self, url, *args):
+        '''Sets the internal payload that gets sent along with the
+        request function. The only necessary parameter is the url, extra
+        parameters are expected as a dictionary with appropriate key-value
+        pairs. '''
+        if not url:
+            return
+
+        self.r_payload = {'token' : self.r_api_key, 'url' : url}
+
+        if args:
+            for k in args.keys():
+                self.r_payload[k] = args[k]
         
+    def readability_web_process(self, url):
+        '''Pulls and article and runs it throught the readability api. Encodes
+        in utf-8 to allow for multiple languages, and also cleans through
+        beautiful soup to remove tags.'''
+        if not self.r_payload:
+            self._set_get_req_payload(url)
+
+        res = requests.get(self.base_url, params=self.r_payload)
+
         res_obj = json.loads(res.text.encode('utf-8'))
 
+        # the key here comes from what we want out of the readability json
+        # response
         bsoup_dump = BeautifulSoup(res_obj['content'], 'html.parser')
-        print(bsoup_dump.get_text().encode('utf-8').strip())
+
+        return bsoup_dump.get_text().encode('utf-8').strip()
 
 def main():
     url = raw_input('url: ')
+    f = Feedr()
 
-    FeedMe.readability_article_clean_test(url)
+    res = f.readability_web_process(url)
+    print(res)
 
-main()
+# main()
