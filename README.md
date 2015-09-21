@@ -1,16 +1,14 @@
 # ![diffusion](assets/logo.png)
-Diffusion is the translation diff engine backend for BaoBao. It's split into two
+diffusion is the translation diff engine backend for BaoBao. It's split into two
 main parts, the text extraction and parse tokenizer, and the translation diffing
 engine. It uses the Readability API for web links, and the Parse library.
 
 ## pro strats
-Current strategy is as follows:
-- Dissect the [Krill package](https://github.com/p-e-w/krill.git) to find how
-  they pull RSS and Twitter body data and links.
-- Run the links through Readability if they haven't been stripped of external
-  nastiness and cruft
-    - Try to replicate a custom version of a content parser so as to remove the
-      reliance on an external API for this.
+Right now, the feedme library has a class, Feedr, that can take in a web
+article, will run it through the Readability API, and then will clean and return
+the body text of the article.
+
+### next Steps
 - Run a tokenizer on the data
     - Determine parts of speech
     - Group into similar sentence constructs
@@ -22,10 +20,14 @@ Current strategy is as follows:
       correct" and continue
     - Concurrency is key
  
-## feedme
-feedme is the feed library. This is what's gonna pull from an rss feed, a url, a
-twitter link, a txt file etc., tokenize, and then feed to the translation
-engine. This'll also include the diffing engine later on.
+## libraries
+### feedme
+feedme is the input feed library. This is what pulls web articles, and will be
+extended to cleanse txt files and other forms of text for input.
+
+### llama
+llama is what runs the translations and tokenizes the text. It takes care of the
+nlp of our input text and runs the translations on the text.
 
 ## links and misc.
 - [stackoverflow thread](http://stackoverflow.com/questions/399200/calculating-the-semantic-distance-between-words)
