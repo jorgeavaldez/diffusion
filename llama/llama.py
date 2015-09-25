@@ -27,6 +27,12 @@ from pattern.en import parsetree as parsetree_en
 from pattern.es import parse as parse_es
 from pattern.es import parsetree as parsetree_es
 
+from pattern.fr import parse as parse_fr
+from pattern.fr import parsetree as parsetree_fr
+
+from pattern.de import parse as parse_de
+from pattern.de import parsetree as parsetree_de
+
 class Llama(object):
     def __init__(self):
         '''Constructor.'''
@@ -46,6 +52,23 @@ class Llama(object):
         '''Generates a parse tree from spanish text.'''
         
         txt_tree = parsetree_es(txt, tokenize=True, tags=True, chunks=True,
+                relations=True, lemmata=True, encoding='utf-8')
+
+        return txt_tree
+
+    
+    def gen_parse_tree_fr(self, txt):
+        '''Generates a parse tree from french text.'''
+        
+        txt_tree = parsetree_fr(txt, tokenize=True, tags=True, chunks=True,
+                relations=True, lemmata=True, encoding='utf-8')
+
+        return txt_tree
+
+    def gen_parse_tree_de(self, txt):
+        '''Generates a parse tree from german text.'''
+        
+        txt_tree = parsetree_de(txt, tokenize=True, tags=True, chunks=True,
                 relations=True, lemmata=True, encoding='utf-8')
 
         return txt_tree

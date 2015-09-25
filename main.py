@@ -9,7 +9,6 @@ def main():
     # The Feedr object consumes the url and is our interface with the
     # Readability API
     f = Feedr()
-
     response = f.readability_web_process(url)
 
     print('CLEAN TEXT\n=======================')
@@ -17,9 +16,9 @@ def main():
     print('\n')
     print('PARSE TREE\n=======================')
 
-    # Because LLAMA'S
+    # Because LLAMAS
     lma = Llama()
-    ptree = lma.gen_parse_tree_en(response)
+    ptree = lma.gen_parse_tree_fr(response)
 
     # We're sticking the parse tree in an output file because there's too much
     # to print normally.
