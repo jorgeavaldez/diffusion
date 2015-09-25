@@ -18,7 +18,7 @@ def main():
 
     # Because LLAMAS
     lma = Llama()
-    ptree = lma.gen_parse_tree_fr(response)
+    ptree = lma.gen_parse_tree_it(response)
 
     # We're sticking the parse tree in an output file because there's too much
     # to print normally.
