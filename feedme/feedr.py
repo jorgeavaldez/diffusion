@@ -15,6 +15,7 @@ import re
 import requests
 import sys
 import json
+import os
 
 from bs4 import BeautifulSoup
 
@@ -25,11 +26,7 @@ class Feedr(object):
 
         self.base_url = 'http://readability.com/api/content/v1/parser'
 
-        with open('readability_key.txt', 'r') as key_file:
-            # TODO: at some point, make the readability api key an environment
-            # variable, or move the api file to a definite location, and maybe add
-            # multiple keys in the same file, and maybe add some error checking
-            self.r_api_key = key_file.readlines()[0].strip()
+        self.r_api_key = os.environ['READABILITY_KEY']
 
         self.r_payload = {}
             
@@ -71,4 +68,5 @@ def main():
     res = f.readability_web_process(url)
     print(res)
 
-# main()
+if __name__ == "__main__":
+    main()
