@@ -41,17 +41,24 @@ from pattern.nl import parse as parse_nl
 from pattern.nl import parsetree as parsetree_nl
 
 # for the heavy duty nlp stuff
-from pattern.vector import Document, Model
+from pattern.vector import Document, Model, stem, LEMMA
 
 class Llama(object):
-    def __init__(self, txt):
+    def __init__(self, txt, lang='en'):
         '''Constructor.'''
         self.txt = txt
+        self.lang = lang
+        self.ptree = self.gen_parse_tree()
+        self.doc_raw = Document(txt, stopwords=True)
+        self.doc = Document(txt, stemmer=LEMMA, stopwords=False)
 
-    def text_frequencies(self, ptree, chunkType=True, chunkRole=True,
-        wordType=True, wordF=True):
+    def ptree_frequencies(self, ptree=None, chunkType=True, chunkRole=True,
+        wordType=True):
         '''Calculates the appropriate frequencies of the word and chunk types
         within the given parse tree and outputs as a dict of dicts.'''
+
+        if ptree is None:
+            ptree = self.ptree
 
         # So the parse tree is returned as a list of Sentences, each of which is
         # made up of Chunks that are made up of Words. Here we traverse this madness
@@ -64,9 +71,6 @@ class Llama(object):
 
         if wordType:
             wordTypeFreq = {}
-
-        if wordF:
-            wordFreq = {}
 
         for s in ptree:
             for ch in s.chunks:
@@ -85,13 +89,6 @@ class Llama(object):
                     chunkRoleFreq[str(ch.role)] = 1
 
                 for w in ch:
-                    # Word frequencies
-                    if wordF and w.string.encode('utf-8') in wordFreq.keys():
-                        wordFreq[w.string.encode('utf-8')] += 1
-
-                    elif wordF:
-                         wordFreq[w.string.encode('utf-8')] = 1
-
                     # Word type frequencies
                     if wordType and w.type in wordTypeFreq.keys():
                         wordTypeFreq[w.type] += 1
@@ -114,11 +111,6 @@ class Llama(object):
                 key=lambda x: x[1], reverse=True))
             res['chunkRoleFreq'] = chunkRoleFreq
 
-        if wordF:
-            wordFreq = OrderedDict(sorted(wordFreq.items(),
-                key=lambda x: x[1], reverse=True))
-            res['wordFreq'] = wordFreq
-
         if wordType:
             wordTypeFreq = OrderedDict(sorted(wordTypeFreq.items(),
                 key=lambda x: x[1], reverse=True))
@@ -129,50 +121,98 @@ class Llama(object):
     def doc_vector(self, txt):
         '''Generates a document from the input text, and calculates the tf-idf
         and various statistics from the pattern vector module.'''
-        doc = Document(txt, 
+        
+    def gen_parse_tree(self, txt=None, lang=None):
+        '''Returns the parsetree for the given language. The language defaults
+        to this Llamas language.'''
 
-    def gen_parse_tree_en(self, txt=self.txt):
+        if txt is None:
+            txt = self.txt
+
+        if lang is None:
+            lang = self.lang
+
+        if lang == 'en':
+            return self._gen_parse_tree_en(txt)
+
+        elif lang == 'es':
+            return self._gen_parse_tree_es(txt)
+
+        elif lang == 'fr':
+            return self._gen_parse_tree_fr(txt)
+        
+        elif lang == 'de':
+            return self._gen_parse_tree_de(txt)
+
+        elif lang == 'it':
+            return self._gen_parse_tree_it(txt)
+
+        elif lang == 'nl':
+            return self._gen_parse_tree_fr(txt)
+
+    # parse tree generators for each language.
+    # don't use this, use gen_parse_tree instead.
+
+    def _gen_parse_tree_en(self, txt=None):
         '''Generates a parse tree from english text.'''
+        
+        if txt is None:
+            txt = self.txt
 
         txt_tree = parsetree_en(txt, tokenize=True, tags=True, chunks=True,
                 relations=True, lemmata=True, encoding='utf-8')
 
         return txt_tree
 
-    def gen_parse_tree_es(self, txt=self.txt):
+    def _gen_parse_tree_es(self, txt=None):
         '''Generates a parse tree from spanish text.'''
+
+        if txt is None:
+            txt = self.txt
 
         txt_tree = parsetree_es(txt, tokenize=True, tags=True, chunks=True,
                 relations=True, lemmata=True, encoding='utf-8')
 
         return txt_tree
 
-    def gen_parse_tree_fr(self, txt=self.txt):
+    def _gen_parse_tree_fr(self, txt=None):
         '''Generates a parse tree from french text.'''
+
+        if txt is None:
+            txt = self.txt
 
         txt_tree = parsetree_fr(txt, tokenize=True, tags=True, chunks=True,
                 relations=True, lemmata=True, encoding='utf-8')
 
         return txt_tree
 
-    def gen_parse_tree_de(self, txt=self.txt):
+    def _gen_parse_tree_de(self, txt=None):
         '''Generates a parse tree from german text.'''
+
+        if txt is None:
+            txt = self.txt
 
         txt_tree = parsetree_de(txt, tokenize=True, tags=True, chunks=True,
                 relations=True, lemmata=True, encoding='utf-8')
 
         return txt_tree
 
-    def gen_parse_tree_it(self, txt=self.txt):
+    def _gen_parse_tree_it(self, txt=None):
         '''Generates a parse tree from italian text.'''
+
+        if txt is None:
+            txt = self.txt
 
         txt_tree = parsetree_it(txt, tokenize=True, tags=True, chunks=True,
                 relations=True, lemmata=True, encoding='utf-8')
 
         return txt_tree
 
-    def gen_parse_tree_nl(self, txt=self.txt):
+    def _gen_parse_tree_nl(self, txt=None):
         '''Generates a parse tree from dutch text.'''
+
+        if txt is None:
+            txt = self.txt
 
         txt_tree = parsetree_nl(txt, tokenize=True, tags=True, chunks=True,
                 relations=True, lemmata=True, encoding='utf-8')
