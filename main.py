@@ -3,6 +3,11 @@
 from feedme import Feedr
 from llama import Llama
 
+import matplotlib.pyplot as plt
+import numpy as np
+
+from collections import OrderedDict
+
 def main():
     url = raw_input('url: ')
 
@@ -14,27 +19,54 @@ def main():
     print('CLEAN TEXT\n=======================')
     print(response)
     print('\n')
-    print('PARSE TREE\n=======================')
 
     # Because LLAMAS
-    lma = Llama()
-    ptree = lma.gen_parse_tree_it(response)
+    lma = Llama(response)
+    ptree = lma.gen_parse_tree_nl()
 
     # We're sticking the parse tree in an output file because there's too much
     # to print normally.
     sample_out_file = open('s_out.txt', 'w')
 
+    # We're gonna use the llama text freq function here
+    freqDicts = lma.text_frequencies(ptree)
+
     # So the parse tree is returned as a list of Sentences, each of which is
     # made up of Chunks that are made up of Words. Here we traverse this madness
     # to format for output.
-    for s in ptree:
-        for ch in s.chunks:
-            # Just some of the different properties that we can display from a
-            # chunk
-            sample_out_file.write(str(ch.type) + " " + str(ch.role) + " " + 
-                    str([(w.string.encode('utf-8'), w.type) for w in ch]) + "\n")
+    chunkTypeFreq = freqDicts['chunkTypeFreq']
+    chunkRoleFreq = freqDicts['chunkRoleFreq']
+    wordTypeFreq = freqDicts['wordTypeFreq']
+    wordFreq = freqDicts['wordFreq']
+
+    # We need to pull the dicts from llama
+    sample_out_file.write("CHUNK TYPE\n")
+
+    for t in chunkTypeFreq.keys():
+        sample_out_file.write(str(t) + ": " + str(chunkTypeFreq[t]))
+        sample_out_file.write("\n")
+
+    sample_out_file.write("\nCHUNK ROLE\n")
+
+    for t in chunkRoleFreq.keys():
+        sample_out_file.write(str(t) + ": " + str(chunkRoleFreq[t]))
+        sample_out_file.write("\n")
+
+    sample_out_file.write("\nWORD FREQUENCIES\n")
+
+    for t in wordFreq.keys():
+        sample_out_file.write(str(t) + ": " + str(wordFreq[t]))
+        sample_out_file.write("\n")
+
+    sample_out_file.write("\nWORD TYPE FREQUENCIES\n")
+
+    for t in wordTypeFreq.keys():
+        sample_out_file.write(str(t) + ": " + str(wordTypeFreq[t]))
+        sample_out_file.write("\n")
 
     sample_out_file.close()
-    
+
+    # Here we're going to start plotting the parts of speech using matplotlib
+
 if __name__ == "__main__":
     main()
