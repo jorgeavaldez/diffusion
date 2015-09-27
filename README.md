@@ -26,8 +26,9 @@ feedme is the input feed library. This is what pulls web articles, and will be
 extended to cleanse txt files and other forms of text for input.
 
 ### llama
-llama is what runs the translations and tokenizes the text. It takes care of the
-nlp of our input text and runs the translations on the text.
+llama is what runs the natural language processing of the text. Each llama
+represents a document that we'll begin moving into a herd. Each herd will create
+a model that we can use to determine similarity between translations.
 
 ## links and misc.
 - [stackoverflow thread](http://stackoverflow.com/questions/399200/calculating-the-semantic-distance-between-words)

@@ -118,9 +118,12 @@ class Llama(object):
 
         return res
 
-    def doc_vector(self, txt):
+    def doc_vector_frequencies(self, doc=None):
         '''Generates a document from the input text, and calculates the tf-idf
         and various statistics from the pattern vector module.'''
+
+        if doc is None:
+            doc = self.doc
         
     def gen_parse_tree(self, txt=None, lang=None):
         '''Returns the parsetree for the given language. The language defaults

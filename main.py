@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from collections import OrderedDict
+import time
 
 def main():
     lang = raw_input('lang: ')
@@ -26,7 +27,7 @@ def main():
 
     # We're sticking the parse tree in an output file because there's too much
     # to print normally.
-    sample_out_file = open('s_out.txt', 'w')
+    sample_out_file = open(time.strftime('%m%d%Y%H%M%S') + '_' + str(lang) + '_' + 'sample_out.txt', 'w')
 
     # We're gonna use the llama text freq function here
     freqDicts = lma.ptree_frequencies()
