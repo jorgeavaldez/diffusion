@@ -1,6 +1,6 @@
 /krill
+/main_out
 *.swp
-.DS_Store
 *.txt
-readability_key.txt
 *.pyc
+.DS_STORE
