@@ -7,12 +7,12 @@
 #
 # created for the engaged learning project with Alex Saladna (asaladna@smu.edu)
 #
-# feedme __init__.py - initialization file
+# feedme/__init__.py - initialization file
 #   sets the __all__ variable and preps the files for direct import
 
 # allows you to do the following:
-#   from feedme import Feedr
-from feedr import Feedr
+#   from feedme import Cleanr 
+from feedr import Cleanr
 
 # when you import *, this is where you set what all gets imported
-__all__ = ['feedr.py']
+__all__ = ['cleanr.py']

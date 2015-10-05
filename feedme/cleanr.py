@@ -7,9 +7,9 @@
 #
 # created for the engaged learning project with Alex Saladna (asaladna@smu.edu)
 #
-# feed_me - feed cleaning and text parsing library
+# feedme/Cleanr - feed cleaning and text parsing library
 #   uses the readability api to extract text from web urls
-#   api key is kept in the same directory as readability_key.txt
+#   api key is set as an environment variable, $READABILITY_KEY
 
 import re
 import requests
@@ -19,7 +19,7 @@ import os
 
 from bs4 import BeautifulSoup
 
-class Feedr(object):
+class Cleanr(object):
     def __init__(self):
         '''Constructor. Instantiates the base_url and opens the api key and loads
         it into memory.'''
@@ -63,7 +63,7 @@ class Feedr(object):
 
 def main():
     url = raw_input('url: ')
-    f = Feedr()
+    f = Cleanr()
 
     res = f.readability_web_process(url)
     print(res)

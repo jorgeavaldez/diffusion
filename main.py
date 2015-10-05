@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from feedme import Feedr
+from feedme import Cleanr
 from llama import Llama
 
 import matplotlib.pyplot as plt
@@ -13,9 +13,9 @@ def main():
     lang = raw_input('lang: ')
     url = raw_input('url: ')
 
-    # The Feedr object consumes the url and is our interface with the
+    # The Cleanr object consumes the url and is our interface with the
     # Readability API
-    f = Feedr()
+    f = Cleanr()
     response = f.readability_web_process(url)
 
     print('CLEAN TEXT\n=======================')
