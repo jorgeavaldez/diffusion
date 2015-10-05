@@ -22,6 +22,9 @@ def main():
     print(response)
     print('\n')
 
+    out_txt_res = open('file.txt', 'w')
+    out_txt_res.write(response)
+
     # Because LLAMAS
     lma = Llama(response, lang)
 
