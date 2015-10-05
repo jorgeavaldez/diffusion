@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from feedme import Cleanr
+from feedme import Cleanr, Speakr
 from llama import Llama
 
 import matplotlib.pyplot as plt
@@ -9,28 +9,11 @@ import numpy as np
 from collections import OrderedDict
 import time
 
-def main():
-    lang = raw_input('lang: ')
-    url = raw_input('url: ')
-
-    # The Cleanr object consumes the url and is our interface with the
-    # Readability API
-    f = Cleanr()
-    response = f.readability_web_process(url)
-
-    print('CLEAN TEXT\n=======================')
-    print(response)
-    print('\n')
-
-    out_txt_res = open('out_txt_file.txt', 'w')
-    out_txt_res.write(response)
-
-    # Because LLAMAS
-    lma = Llama(response, lang)
-
+def llama_test_out(lma):
     # We're sticking the parse tree in an output file because there's too much
     # to print normally.
-    sample_out_file = open('main_out/' + time.strftime('%m%d%Y%H%M%S') + '_' + str(lang) + '_' + 'sample_out.txt', 'w')
+    sample_out_file = open('main_out/' + time.strftime('%m%d%Y%H%M%S') +
+            '_' + str(lang) + '_' + 'sample_out.txt', 'w')
 
     # We're gonna use the llama text freq function here
     freqDicts = lma.ptree_frequencies()
@@ -63,7 +46,28 @@ def main():
 
     sample_out_file.close()
 
-    # Here we're going to start plotting the parts of speech using matplotlib
+def speakr_test_out(txt):
+    spkr = Speakr()
+
+    spkr.translate_text_google(txt), 
+
+def main():
+    lang = raw_input('lang: ')
+    url = raw_input('url: ')
+
+    # The Cleanr object consumes the url and is our interface with the
+    # Readability API
+    f = Cleanr()
+    response = f.readability_web_process(url)
+
+    out_txt_res = open('clean_article_out.txt', 'w')
+    out_txt_res.write(response)
+    out_txt_res.close()
+
+    # Because LLAMAS
+    lma = Llama(response, lang)
+
+    llama_test_out(lma)
 
 if __name__ == "__main__":
     main()

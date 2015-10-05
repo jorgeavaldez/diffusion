@@ -12,7 +12,8 @@
 
 # allows you to do the following:
 #   from feedme import Cleanr 
-from feedr import Cleanr
+from cleanr import Cleanr
+from speakr import Speakr
 
 # when you import *, this is where you set what all gets imported
-__all__ = ['cleanr.py']
+__all__ = ['cleanr.py', 'speakr.py']
